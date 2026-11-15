@@ -28,3 +28,9 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Storefront architecture
+- Keep exactly three customer content routes (home, dynamic product detail, checkout); collection navigation filters the home because the requested phase excludes additional pages.
+- Keep demo catalog rules in a pure module and cart in an in-memory root provider; no persistence or real orders are implied without an approved store connection.
+- Render the photographic R3F scene only through a lazy client-only desktop subtree; mobile and reduced-motion visitors use the original photo for performance and SSR safety.
+- Unknown commercial amounts stay null and unconfigured payment stays disabled; tests enforce truthful demonstration behavior.
