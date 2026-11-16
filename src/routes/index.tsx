@@ -45,6 +45,7 @@ function Index() {
   const { category } = Route.useSearch();
   const [tab, setTab] = useState("جدیدترین محصولات");
   const [size, setSize] = useState("");
+  const [collection, setCollection] = useState("");
   const [desktop, setDesktop] = useState(false);
   const root = useRef<HTMLElement>(null);
   useEffect(() => {
@@ -72,7 +73,19 @@ function Index() {
     (p) =>
       (!category ||
         !["کفش", "اکسسوری", "سایز بزرگ", "پوشاک مردانه"].includes(category) ||
-        (category === "پوشاک مردانه" ? p.kind === "clothing" : p.category === category)) &&
+        (category === "پوشاک مردانه"
+          ? p.kind === "clothing"
+          : category === "سایز بزرگ"
+            ? p.kind === "clothing" && p.options.includes("3XL")
+            : p.category === category)) &&
+      (!collection ||
+        (collection === "کاپشن و کت"
+          ? ["کت", "کاپشن"].includes(p.category)
+          : collection === "کیف"
+            ? ["crossbody-bag", "backpack", "waist-bag"].includes(p.slug)
+            : collection === "سویشرت"
+              ? p.category === "سویشرت زیپ‌دار"
+              : p.category === collection || p.name.includes(collection))) &&
       (!size || (p.options.includes(size) && !p.unavailable.includes(size))),
   );
   const browse = () => document.getElementById("products")?.scrollIntoView();
@@ -193,12 +206,16 @@ function Index() {
             "سویشرت",
             "هودی",
             "کاپشن و کت",
+            "بارانی",
+            "سویشرت زیپ‌دار",
             "عطر",
             "کمربند",
             "کیف",
             "کلاه",
             "جوراب",
             "کراوات",
+            "کوله‌پشتی",
+            "کیف کمری",
             "کفش رسمی",
             "کفش اسپرت",
             "کفش روزمره",
@@ -208,7 +225,8 @@ function Index() {
               className="p-0 text-xs text-muted-foreground h-auto"
               key={n}
               onClick={() => {
-                setTab(n);
+                setCollection(n);
+                setTab("جدیدترین محصولات");
                 browse();
               }}
             >
@@ -265,11 +283,16 @@ function Index() {
           <div>
             <p className="eyebrow mb-3">انتخاب امروز شما</p>
             <h2 className="section-title">
-              {category && category !== "تماس با ما" ? category : "منتخب‌های مارک"}
+              {collection || (category && category !== "تماس با ما" ? category : "منتخب‌های مارک")}
             </h2>
           </div>
           <SlidersHorizontal size={20} className="text-champagne" />
         </div>
+        {collection && (
+          <Button variant="link" onClick={() => setCollection("")} className="mb-4 px-0">
+            نمایش همهٔ محصولات
+          </Button>
+        )}
         <div className="flex flex-wrap justify-between gap-5 border-b border-border pb-5 mb-8">
           <div className="flex flex-wrap gap-5">
             {["جدیدترین محصولات", "پرفروش‌ترین‌ها", "پیشنهاد ویژه"].map((n) => (

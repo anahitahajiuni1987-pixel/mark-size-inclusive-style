@@ -3,8 +3,7 @@ import { useState } from "react";
 import { ArrowLeft, Ruler, Minus, Plus, ShoppingBag, Check, ZoomIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Modal, ProductCard, useCart } from "@/components/mark-store";
-import { products, canSelect, numberFa } from "@/lib/catalog";
-import editorial from "@/assets/mark-editorial.jpg";
+import { products, canSelect, numberFa, selectedColor } from "@/lib/catalog";
 export const Route = createFileRoute("/product/$slug")({
   head: ({ params }) => {
     const p = products.find((p) => p.slug === params.slug);
@@ -24,12 +23,16 @@ export const Route = createFileRoute("/product/$slug")({
 });
 function ProductPage() {
   const { slug } = Route.useParams();
+  return <ProductDetails key={slug} slug={slug} />;
+}
+function ProductDetails({ slug }: { slug: string }) {
   const p = products.find((p) => p.slug === slug);
   const [option, setOption] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [modal, setModal] = useState<string | null>(null);
   const [added, setAdded] = useState(false);
   const [imageIndex, setImageIndex] = useState(0);
+  const [colorId, setColorId] = useState("black");
   const { add } = useCart();
   if (!p)
     return (
@@ -42,10 +45,12 @@ function ProductPage() {
         </Button>
       </main>
     );
-  const images = [p.image, p.kind === "clothing" ? editorial : p.image];
+  const color = selectedColor(p, colorId);
+  const images = color?.gallery ?? [p.image];
+  const colorName = color?.name ?? "مشکی";
   const addItem = () => {
     if (!canSelect(p, option)) return;
-    add({ slug: p.slug, option, quantity, color: "مشکی" });
+    add({ slug: p.slug, option, quantity, color: colorName });
     setAdded(true);
   };
   return (
@@ -64,7 +69,8 @@ function ProductPage() {
           <div className="gallery-zoom relative" onClick={() => setModal("zoom")}>
             <img
               src={images[imageIndex]}
-              alt={p.name}
+              alt={`${p.name}، رنگ ${colorName}${p.kind === "clothing" ? " روی مدل" : ""}`}
+              data-testid="product-gallery-image"
               width={1024}
               height={1280}
               className="product-image"
@@ -108,14 +114,33 @@ function ProductPage() {
           <p className="text-sm text-muted-foreground leading-8 mt-6">{p.description}</p>
           <div className="mt-7">
             <p className="text-sm mb-4">
-              رنگ: مشکی <span className="text-muted-foreground text-xs">(نمایشی)</span>
+              رنگ: {colorName} <span className="text-muted-foreground text-xs">(نمایشی)</span>
             </p>
-            <Button variant="ghost" size="icon" aria-label="رنگ مشکی" aria-pressed="true">
-              <span className="swatch" />
-            </Button>
+            <div className="flex gap-3">
+              {(p.colors ?? [{ id: "black", name: "مشکی" }]).map((c) => (
+                <Button
+                  key={c.id}
+                  variant="outline"
+                  size="icon"
+                  title={c.name}
+                  aria-label={`رنگ ${c.name}`}
+                  aria-pressed={colorName === c.name}
+                  className={colorName === c.name ? "border-champagne" : ""}
+                  onClick={() => {
+                    setColorId(c.id);
+                    setImageIndex(0);
+                    setAdded(false);
+                  }}
+                >
+                  <span className={`swatch swatch-${c.id}`} />
+                </Button>
+              ))}
+            </div>
           </div>
           <div className="flex justify-between items-center mt-6">
-            <p className="text-sm">{p.kind === "accessory" ? "ابعاد" : "انتخاب سایز"}</p>
+            <p className="text-sm">
+              {p.optionLabel ?? (p.kind === "accessory" ? "ابعاد" : "انتخاب سایز")}
+            </p>
             {p.kind === "clothing" && (
               <Button
                 variant="link"
@@ -202,6 +227,7 @@ function ProductPage() {
         <div className="grid grid-cols-2 md:grid-cols-3 gap-5">
           {products
             .filter((i) => i.slug !== slug)
+            .slice(0, 3)
             .map((p) => (
               <ProductCard key={p.slug} product={p} />
             ))}
@@ -213,7 +239,7 @@ function ProductPage() {
           close={() => setModal(null)}
         >
           {modal === "zoom" ? (
-            <img src={images[imageIndex]} alt={p.name} className="w-full" />
+            <img src={images[imageIndex]} alt={`${p.name}، ${colorName}`} className="w-full" />
           ) : (
             <>
               <p className="text-sm leading-8 text-muted-foreground">

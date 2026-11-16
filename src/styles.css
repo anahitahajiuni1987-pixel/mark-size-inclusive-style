@@ -83,6 +83,8 @@
   --radius: 0.25rem;
   --champagne: oklch(0.8 0.035 80);
   --surface: oklch(0.2 0.004 80);
+  --garment-olive: oklch(0.43 0.055 120);
+  --garment-ivory: oklch(0.91 0.025 85);
   --background: oklch(0.145 0.003 80);
   --foreground: oklch(0.94 0.013 85);
   --card: oklch(1 0 0);
@@ -312,7 +314,8 @@ input {
 .product-image {
   width: 100%;
   aspect-ratio: 4 / 5;
-  object-fit: cover;
+  object-fit: contain;
+  background: var(--surface);
 }
 .inclusive {
   background: var(--surface);
@@ -369,6 +372,12 @@ input {
 .gallery-zoom {
   overflow: hidden;
   cursor: zoom-in;
+}
+.swatch-olive {
+  background: var(--garment-olive);
+}
+.swatch-ivory {
+  background: var(--garment-ivory);
 }
 .gallery-zoom img {
   transition: transform 0.5s;

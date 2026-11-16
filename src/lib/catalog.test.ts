@@ -1,5 +1,12 @@
 import { describe, it, expect } from "vitest";
-import { products, canSelect, paymentConfigured, toman } from "./catalog";
+import {
+  products,
+  canSelect,
+  paymentConfigured,
+  toman,
+  selectedColor,
+  productImageForColor,
+} from "./catalog";
 describe("MARK commercial rules", () => {
   it("unavailable clothing sizes cannot be selected", () => {
     const p = products[0];
@@ -25,5 +32,42 @@ describe("MARK commercial rules", () => {
   });
   it("does not enable an unconfigured payment gateway", () => {
     expect(paymentConfigured).toBe(false);
+  });
+  it("maps selected tee colors to the same garment's model photographs", () => {
+    const p = products.find((p) => p.slug === "crewneck-tee");
+    if (!p) throw new Error("missing tee");
+    expect(selectedColor(p, "olive")?.name).toBe("زیتونی");
+    expect(selectedColor(p, "olive")?.image).toContain("crewneck-tee-olive");
+    expect(selectedColor(p, "ivory")?.image).toContain("crewneck-tee-ivory");
+    expect(productImageForColor(p, "زیتونی")).toBe(selectedColor(p, "olive")?.image);
+  });
+  it("includes each requested outerwear sample with three matching color photos", () => {
+    for (const slug of [
+      "tailored-blazer",
+      "puffer-jacket",
+      "classic-shirt",
+      "raincoat",
+      "zip-sweatshirt",
+    ]) {
+      const p = products.find((p) => p.slug === slug);
+      expect(p?.colors?.map((c) => c.id)).toEqual(["black", "olive", "ivory"]);
+      expect(new Set(p?.colors?.map((c) => c.image)).size).toBe(3);
+    }
+  });
+  it("includes requested accessory types and perfume volume options", () => {
+    for (const slug of [
+      "baseball-cap",
+      "neck-tie",
+      "perfume",
+      "socks",
+      "crossbody-bag",
+      "backpack",
+      "waist-bag",
+    ])
+      expect(products.find((p) => p.slug === slug)?.kind).toBe("accessory");
+    expect(products.find((p) => p.slug === "perfume")?.options).toEqual([
+      "۵۰ میلی‌لیتر",
+      "۱۰۰ میلی‌لیتر",
+    ]);
   });
 });

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { ShieldCheck, ArrowLeft, ShoppingBag, Trash2, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/components/mark-store";
-import { products, numberFa, paymentConfigured } from "@/lib/catalog";
+import { products, numberFa, paymentConfigured, productImageForColor } from "@/lib/catalog";
 export const Route = createFileRoute("/checkout")({
   head: () => ({
     meta: [
@@ -158,10 +158,14 @@ function Checkout() {
               if (!p) return null;
               return (
                 <div
-                  key={`${item.slug}-${item.option}`}
+                  key={`${item.slug}-${item.option}-${item.color}`}
                   className="flex gap-4 border-b border-border pb-6 mb-6"
                 >
-                  <img src={p.image} alt={p.name} className="w-20 h-24 object-cover" />
+                  <img
+                    src={productImageForColor(p, item.color)}
+                    alt={`${p.name}، ${item.color}`}
+                    className="w-20 h-24 object-cover"
+                  />
                   <div className="flex-1">
                     <Link to="/product/$slug" params={{ slug: p.slug }} className="text-sm">
                       {p.name}

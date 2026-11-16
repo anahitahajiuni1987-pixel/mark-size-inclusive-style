@@ -1,4 +1,7 @@
 # MARK
+- [x] Match selected garment color to the same model's photograph and demonstration cart.
+- [x] Add requested menswear and accessory sample collections with dedicated imagery.
+- [x] Verify color selection and expanded catalog on mobile and desktop.
 - [x] Persian RTL homepage, cinematic photography and lightweight 3D motion.
 - [x] Product detail, option selection, measurement guidance and demonstration cart; actual centimeter table awaits verified product data.
 - [x] Checkout review with truthful unavailable-payment state.
