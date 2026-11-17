@@ -35,3 +35,4 @@ use the editor.
 - Render the photographic R3F scene only through a lazy client-only desktop subtree; mobile and reduced-motion visitors use the original photo for performance and SSR safety.
 - Unknown commercial amounts stay null and unconfigured payment stays disabled; tests enforce truthful demonstration behavior.
 - Product color variants own their matching photo galleries; detail selection and cart thumbnails resolve through that same catalog mapping to avoid showing unrelated garments or colors.
+- AI size recommendations run in a server function against the product's catalog-owned chart; validate suggested options, never persist body measurements, and label all unverified charts as demonstrations.

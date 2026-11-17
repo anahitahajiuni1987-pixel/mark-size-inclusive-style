@@ -29,6 +29,14 @@ import belt from "@/assets/belt.jpg";
 import loafers from "@/assets/loafers.jpg";
 import poloBlack from "@/assets/polo-model-black.jpg";
 import poloOlive from "@/assets/polo-model-olive.jpg";
+import straightJeans from "@/assets/straight-jeans.jpg";
+import tailoredTrousers from "@/assets/tailored-trousers.jpg";
+import pulloverHoodie from "@/assets/pullover-hoodie.jpg";
+import tailoredShorts from "@/assets/tailored-shorts.jpg";
+import crewneckSweatshirt from "@/assets/crewneck-sweatshirt.jpg";
+import leatherSneakers from "@/assets/leather-sneakers.jpg";
+import desertBoots from "@/assets/desert-boots.jpg";
+import sunglasses from "@/assets/sunglasses.jpg";
 
 export type ProductColor = {
   id: "black" | "olive" | "ivory";
@@ -69,7 +77,7 @@ export const products: Product[] = [
   {
     slug: "relaxed-overshirt",
     name: "پیراهن آزاد مردانه",
-    category: "سایز بزرگ",
+    category: "پیراهن",
     image: inclusive,
     kind: "clothing",
     options: ["L", "XL", "XXL", "3XL", "4XL", "5XL"],
@@ -81,7 +89,7 @@ export const products: Product[] = [
   {
     slug: "leather-loafers",
     name: "کفش کالج چرمی مشکی",
-    category: "کفش",
+    category: "کفش رسمی",
     image: loafers,
     kind: "shoes",
     options: ["40", "41", "42", "43", "44", "45", "46"],
@@ -207,7 +215,7 @@ export const products: Product[] = [
   {
     slug: "baseball-cap",
     name: "کلاه کپ مردانه",
-    category: "اکسسوری",
+    category: "کلاه",
     image: cap,
     kind: "accessory",
     options: ["قابل تنظیم"],
@@ -220,7 +228,7 @@ export const products: Product[] = [
   {
     slug: "neck-tie",
     name: "کراوات کلاسیک مردانه",
-    category: "اکسسوری",
+    category: "کراوات",
     image: tie,
     kind: "accessory",
     options: ["استاندارد"],
@@ -233,7 +241,7 @@ export const products: Product[] = [
   {
     slug: "perfume",
     name: "عطر مردانه",
-    category: "اکسسوری",
+    category: "عطر",
     image: perfume,
     kind: "accessory",
     options: ["۵۰ میلی‌لیتر", "۱۰۰ میلی‌لیتر"],
@@ -246,7 +254,7 @@ export const products: Product[] = [
   {
     slug: "socks",
     name: "جوراب مردانه",
-    category: "اکسسوری",
+    category: "جوراب",
     image: socks,
     kind: "accessory",
     options: ["۳۹–۴۲", "۴۳–۴۶"],
@@ -259,7 +267,7 @@ export const products: Product[] = [
   {
     slug: "crossbody-bag",
     name: "کیف کوچک دوشی",
-    category: "اکسسوری",
+    category: "کیف",
     image: bag,
     kind: "accessory",
     options: ["کوچک"],
@@ -272,7 +280,7 @@ export const products: Product[] = [
   {
     slug: "backpack",
     name: "کوله‌پشتی مردانه",
-    category: "اکسسوری",
+    category: "کوله‌پشتی",
     image: backpack,
     kind: "accessory",
     options: ["استاندارد"],
@@ -285,7 +293,7 @@ export const products: Product[] = [
   {
     slug: "waist-bag",
     name: "کیف کمری مردانه",
-    category: "اکسسوری",
+    category: "کیف کمری",
     image: waistbag,
     kind: "accessory",
     options: ["بند قابل تنظیم"],
@@ -295,7 +303,108 @@ export const products: Product[] = [
     description:
       "نمونهٔ نمایشی کیف کمری مردانه؛ تصاویر، ابعاد و گزینه‌ها نمایشی هستند و نشان‌دهندهٔ موجودی واقعی فروشگاه نیستند.",
   },
+  {
+    slug: "straight-jeans",
+    name: "شلوار جین راسته مردانه",
+    category: "شلوار جین",
+    image: straightJeans,
+    kind: "clothing",
+    options: ["S", "M", "L", "XL", "XXL", "3XL", "4XL", "5XL"],
+    unavailable: [],
+    price: null,
+    description: "نمونهٔ نمایشی شلوار جین با فرم راسته برای استایل روزمره؛ رنگ، جنس، قیمت و موجودی واقعی هنوز تأیید نشده‌اند.",
+  },
+  {
+    slug: "tailored-trousers",
+    name: "شلوار پارچه‌ای آزاد مردانه",
+    category: "شلوار",
+    image: tailoredTrousers,
+    kind: "clothing",
+    options: ["S", "M", "L", "XL", "XXL", "3XL", "4XL", "5XL"],
+    unavailable: [],
+    price: null,
+    description: "نمونهٔ نمایشی شلوار پارچه‌ای با فرم آزاد و خطوط ساده؛ اندازه‌ها و مشخصات واقعی پس از اتصال فروشگاه تأیید می‌شوند.",
+  },
+  {
+    slug: "pullover-hoodie",
+    name: "هودی ساده مردانه",
+    category: "هودی",
+    image: pulloverHoodie,
+    kind: "clothing",
+    options: ["S", "M", "L", "XL", "XXL", "3XL", "4XL", "5XL"],
+    unavailable: [],
+    price: null,
+    description: "نمونهٔ نمایشی هودی مردانه با فرم راحت؛ تصویر برای ارائهٔ کالکشن ساخته شده و مشخصات واقعی محصول نیست.",
+  },
+  {
+    slug: "tailored-shorts",
+    name: "شلوارک پارچه‌ای مردانه",
+    category: "شلوارک",
+    image: tailoredShorts,
+    kind: "clothing",
+    options: ["S", "M", "L", "XL", "XXL", "3XL", "4XL", "5XL"],
+    unavailable: [],
+    price: null,
+    description: "نمونهٔ نمایشی شلوارک پارچه‌ای تا زیر زانو؛ رنگ، جنس، اندازه و موجودی واقعی هنوز اعلام نشده‌اند.",
+  },
+  {
+    slug: "crewneck-sweatshirt",
+    name: "سویشرت یقه‌گرد مردانه",
+    category: "سویشرت",
+    image: crewneckSweatshirt,
+    kind: "clothing",
+    options: ["S", "M", "L", "XL", "XXL", "3XL", "4XL", "5XL"],
+    unavailable: [],
+    price: null,
+    description: "نمونهٔ نمایشی سویشرت یقه‌گرد مردانه برای استایل راحت؛ اطلاعات تجاری و موجودی واقعی متصل نشده‌اند.",
+  },
+  {
+    slug: "leather-sneakers",
+    name: "کفش اسپرت چرمی مشکی",
+    category: "کفش اسپرت",
+    image: leatherSneakers,
+    kind: "shoes",
+    options: ["40", "41", "42", "43", "44", "45", "46"],
+    unavailable: [],
+    price: null,
+    description: "نمونهٔ نمایشی کفش اسپرت چرمی مردانه؛ جنس، قیمت و سایزهای موجود واقعی هنوز تأیید نشده‌اند.",
+  },
+  {
+    slug: "desert-boots",
+    name: "نیم‌بوت جیر روزمره",
+    category: "کفش روزمره",
+    image: desertBoots,
+    kind: "shoes",
+    options: ["40", "41", "42", "43", "44", "45", "46"],
+    unavailable: [],
+    price: null,
+    description: "نمونهٔ نمایشی نیم‌بوت جیر مردانه برای استایل روزمره؛ مشخصات و موجودی واقعی اعلام نشده‌اند.",
+  },
+  {
+    slug: "rectangular-sunglasses",
+    name: "عینک آفتابی مستطیلی",
+    category: "عینک",
+    image: sunglasses,
+    kind: "accessory",
+    options: ["استاندارد"],
+    optionLabel: "اندازه",
+    unavailable: [],
+    price: null,
+    description: "نمونهٔ نمایشی عینک آفتابی مردانه؛ مشخصات فنی، ابعاد، قیمت و موجودی واقعی هنوز تأیید نشده‌اند.",
+  },
 ];
+export const productCategories = Array.from(new Set(products.map((product) => product.category)));
+
+export function matchesCatalogCategory(product: Product, category?: string) {
+  if (!category || category === "جدیدترین‌ها" || category === "تماس با ما") return true;
+  if (category === "پوشاک مردانه") return product.kind === "clothing";
+  if (category === "سایز بزرگ") return product.kind === "clothing" && product.options.includes("3XL");
+  if (category === "کفش") return product.kind === "shoes";
+  if (category === "اکسسوری") return product.kind === "accessory";
+  if (category === "کاپشن و کت") return ["کت", "کاپشن"].includes(product.category);
+  return product.category === category;
+}
+
 export const canSelect = (product: Product, option: string) =>
   product.options.includes(option) && !product.unavailable.includes(option);
 export const paymentConfigured = false;

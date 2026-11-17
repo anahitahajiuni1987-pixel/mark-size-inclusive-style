@@ -1,8 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { ArrowLeft, Ruler, Minus, Plus, ShoppingBag, Check, ZoomIn } from "lucide-react";
+import { ArrowLeft, Ruler, Minus, Plus, ShoppingBag, Check, ZoomIn, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Modal, ProductCard, useCart } from "@/components/mark-store";
+import { SizeAssistant, SizeChart } from "@/components/size-assistant";
 import { products, canSelect, numberFa, selectedColor } from "@/lib/catalog";
 export const Route = createFileRoute("/product/$slug")({
   head: ({ params }) => {
@@ -47,7 +48,7 @@ function ProductDetails({ slug }: { slug: string }) {
     );
   const color = selectedColor(p, colorId);
   const images = color?.gallery ?? [p.image];
-  const colorName = color?.name ?? "مشکی";
+  const colorName = color?.name ?? "تک‌رنگ";
   const addItem = () => {
     if (!canSelect(p, option)) return;
     add({ slug: p.slug, option, quantity, color: colorName });
@@ -112,7 +113,7 @@ function ProductDetails({ slug }: { slug: string }) {
             </p>
           </div>
           <p className="text-sm text-muted-foreground leading-8 mt-6">{p.description}</p>
-          <div className="mt-7">
+          {p.colors && <div className="mt-7">
             <p className="text-sm mb-4">
               رنگ: {colorName} <span className="text-muted-foreground text-xs">(نمایشی)</span>
             </p>
@@ -136,20 +137,28 @@ function ProductDetails({ slug }: { slug: string }) {
                 </Button>
               ))}
             </div>
-          </div>
-          <div className="flex justify-between items-center mt-6">
+          </div>}
+          <div className="flex flex-wrap justify-between items-center gap-3 mt-6">
             <p className="text-sm">
               {p.optionLabel ?? (p.kind === "accessory" ? "ابعاد" : "انتخاب سایز")}
             </p>
             {p.kind === "clothing" && (
-              <Button
-                variant="link"
-                className="text-champagne px-0 text-xs"
-                onClick={() => setModal("size")}
-              >
-                <Ruler />
-                راهنمای اندازه‌ها
-              </Button>
+              <span className="flex flex-wrap gap-4">
+                <Button
+                  variant="link"
+                  className="text-champagne px-0 text-xs"
+                  onClick={() => setModal("size")}
+                >
+                  <Ruler /> جدول سایز
+                </Button>
+                <Button
+                  variant="link"
+                  className="text-champagne px-0 text-xs"
+                  onClick={() => setModal("fit")}
+                >
+                  <Sparkles /> پیشنهاد سایز با AI
+                </Button>
+              </span>
             )}
           </div>
           <div className="flex flex-wrap gap-2 mt-4" dir="ltr">
@@ -235,25 +244,22 @@ function ProductDetails({ slug }: { slug: string }) {
       </section>
       {modal && (
         <Modal
-          title={modal === "size" ? "راهنمای اندازه‌های بدن" : "جزئیات تصویر"}
+          title={modal === "size" ? "جدول سایز نمایشی" : modal === "fit" ? "دستیار پیشنهاد سایز" : "جزئیات تصویر"}
           close={() => setModal(null)}
         >
           {modal === "zoom" ? (
             <img src={images[imageIndex]} alt={`${p.name}، ${colorName}`} className="w-full" />
+          ) : modal === "fit" ? (
+            <SizeAssistant
+              product={p}
+              onSelect={(size) => {
+                setOption(size);
+                setAdded(false);
+                setModal(null);
+              }}
+            />
           ) : (
-            <>
-              <p className="text-sm leading-8 text-muted-foreground">
-                دور سینه و دور کمر را روی بدن، بدون فشار متر اندازه بگیرید. اندازهٔ لباس با اندازهٔ
-                بدن متفاوت است و باید فضای راحتی داشته باشد.
-              </p>
-              <p className="text-sm text-champagne mt-5">
-                جدول سانتی‌متری تأییدشده برای این محصول هنوز دریافت نشده است.
-              </p>
-              <p className="text-xs leading-7 text-muted-foreground mt-4">
-                از تعیین اندازه‌های ساختگی خودداری شده است. برای انتخاب دقیق، اندازه‌های محصول واقعی
-                و جدول فروشگاه باید متصل شوند.
-              </p>
-            </>
+            <SizeChart product={p} />
           )}
         </Modal>
       )}

@@ -13,10 +13,11 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Button } from "@/components/ui/button";
 import { ProductCard, Benefits } from "@/components/mark-store";
-import { products } from "@/lib/catalog";
+import { matchesCatalogCategory, productCategories, products } from "@/lib/catalog";
 import editorial from "@/assets/mark-editorial.jpg";
 import inclusive from "@/assets/mark-inclusive.jpg";
 import accessories from "@/assets/mark-accessories.jpg";
+import sneakers from "@/assets/leather-sneakers.jpg";
 const EditorialScene = lazy(() => import("@/components/editorial-scene"));
 export const Route = createFileRoute("/")({
   validateSearch: (search: Record<string, unknown>): { category?: string | undefined } => ({
@@ -45,7 +46,6 @@ function Index() {
   const { category } = Route.useSearch();
   const [tab, setTab] = useState("جدیدترین محصولات");
   const [size, setSize] = useState("");
-  const [collection, setCollection] = useState("");
   const [desktop, setDesktop] = useState(false);
   const root = useRef<HTMLElement>(null);
   useEffect(() => {
@@ -71,21 +71,7 @@ function Index() {
   }, []);
   const shown = products.filter(
     (p) =>
-      (!category ||
-        !["کفش", "اکسسوری", "سایز بزرگ", "پوشاک مردانه"].includes(category) ||
-        (category === "پوشاک مردانه"
-          ? p.kind === "clothing"
-          : category === "سایز بزرگ"
-            ? p.kind === "clothing" && p.options.includes("3XL")
-            : p.category === category)) &&
-      (!collection ||
-        (collection === "کاپشن و کت"
-          ? ["کت", "کاپشن"].includes(p.category)
-          : collection === "کیف"
-            ? ["crossbody-bag", "backpack", "waist-bag"].includes(p.slug)
-            : collection === "سویشرت"
-              ? p.category === "سویشرت زیپ‌دار"
-              : p.category === collection || p.name.includes(collection))) &&
+      matchesCatalogCategory(p, category) &&
       (!size || (p.options.includes(size) && !p.unavailable.includes(size))),
   );
   const browse = () => document.getElementById("products")?.scrollIntoView();
@@ -165,16 +151,17 @@ function Index() {
             انتخاب‌های ماندگار، جزئیات متمایز
           </span>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
           {[
             ["پوشاک مردانه", editorial, "از روزمره تا رسمی"],
             ["سایز بزرگ", inclusive, "راحتی، بدون مرز"],
-            ["کفش و اکسسوری", accessories, "جزئیاتی که تفاوت می‌سازند"],
+            ["کفش", sneakers, "قدم‌هایی با فرم درست"],
+            ["اکسسوری", accessories, "جزئیاتی که تفاوت می‌سازند"],
           ].map(([name = "", image = "", caption = ""]) => (
             <Link
               key={name}
               to="/"
-              search={{ category: name === "کفش و اکسسوری" ? "اکسسوری" : name }}
+              search={{ category: name }}
               onClick={() => setTimeout(browse, 100)}
               className="category-tile"
             >
@@ -197,41 +184,19 @@ function Index() {
           ))}
         </div>
         <div className="flex flex-wrap gap-x-5 gap-y-3 mt-6">
-          {[
-            "تیشرت",
-            "پولوشرت",
-            "پیراهن",
-            "شلوار",
-            "شلوارک",
-            "سویشرت",
-            "هودی",
-            "کاپشن و کت",
-            "بارانی",
-            "سویشرت زیپ‌دار",
-            "عطر",
-            "کمربند",
-            "کیف",
-            "کلاه",
-            "جوراب",
-            "کراوات",
-            "کوله‌پشتی",
-            "کیف کمری",
-            "کفش رسمی",
-            "کفش اسپرت",
-            "کفش روزمره",
-          ].map((n) => (
-            <Button
-              variant="link"
-              className="p-0 text-xs text-muted-foreground h-auto"
-              key={n}
+          {["کاپشن و کت", ...productCategories].map((name) => (
+            <Link
+              className="text-xs text-muted-foreground hover:text-champagne"
+              key={name}
+              to="/"
+              search={{ category: name }}
               onClick={() => {
-                setCollection(n);
                 setTab("جدیدترین محصولات");
-                browse();
+                setTimeout(browse, 100);
               }}
             >
-              {n}
-            </Button>
+              {name}
+            </Link>
           ))}
         </div>
       </section>
@@ -283,16 +248,29 @@ function Index() {
           <div>
             <p className="eyebrow mb-3">انتخاب امروز شما</p>
             <h2 className="section-title">
-              {collection || (category && category !== "تماس با ما" ? category : "منتخب‌های مارک")}
+              {category && category !== "تماس با ما" && category !== "جدیدترین‌ها" ? category : "منتخب‌های مارک"}
             </h2>
           </div>
           <SlidersHorizontal size={20} className="text-champagne" />
         </div>
-        {collection && (
-          <Button variant="link" onClick={() => setCollection("")} className="mb-4 px-0">
-            نمایش همهٔ محصولات
+        {category && !["تماس با ما", "جدیدترین‌ها"].includes(category) && (
+          <Button variant="link" asChild className="mb-4 px-0">
+            <Link to="/" search={{}}>نمایش همهٔ محصولات</Link>
           </Button>
         )}
+        <nav className="flex flex-wrap gap-2 mb-8" aria-label="دسته‌بندی محصولات">
+          {["همه", "پوشاک مردانه", "سایز بزرگ", "کفش", "اکسسوری", ...productCategories].map((name) => {
+            const value = name === "همه" ? undefined : name;
+            const active = category === value || (!category && name === "همه");
+            return (
+              <Button key={name} asChild variant={active ? "default" : "outline"} size="sm">
+                <Link to="/" search={{ category: value }} onClick={() => setTab("جدیدترین محصولات")}>
+                  {name}
+                </Link>
+              </Button>
+            );
+          })}
+        </nav>
         <div className="flex flex-wrap justify-between gap-5 border-b border-border pb-5 mb-8">
           <div className="flex flex-wrap gap-5">
             {["جدیدترین محصولات", "پرفروش‌ترین‌ها", "پیشنهاد ویژه"].map((n) => (
