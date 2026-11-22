@@ -1,7 +1,7 @@
 # MARK
-- [ ] Add AI size recommendations from customer measurements and clearly demo product size charts.
-- [ ] Organize the catalog into useful product categories and filters.
-- [ ] Add more demo products with matching photography and verify the complete shopping flow.
+- [x] Add AI size recommendations from customer measurements and clearly demo product size charts.
+- [x] Organize the catalog into useful product categories and filters.
+- [x] Add more demo products with matching photography and verify the complete shopping flow.
 - [x] Match selected garment color to the same model's photograph and demonstration cart.
 - [x] Add requested menswear and accessory sample collections with dedicated imagery.
 - [x] Verify color selection and expanded catalog on mobile and desktop.
