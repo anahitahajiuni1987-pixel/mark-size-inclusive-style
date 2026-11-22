@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import {
   products,
   canSelect,
-  paymentConfigured,
+  shippingToman,
   toman,
   selectedColor,
   productImageForColor,
@@ -30,8 +30,8 @@ describe("MARK commercial rules", () => {
     expect(products.every((p) => p.price === null)).toBe(true);
     expect(toman(null)).toBe("قیمت اعلام نشده");
   });
-  it("does not enable an unconfigured payment gateway", () => {
-    expect(paymentConfigured).toBe(false);
+  it("does not invent a shipping fee for real checkout", () => {
+    expect(shippingToman).toBeNull();
   });
   it("maps selected tee colors to the same garment's model photographs", () => {
     const p = products.find((p) => p.slug === "crewneck-tee");

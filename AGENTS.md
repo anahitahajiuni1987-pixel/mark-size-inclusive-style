@@ -31,8 +31,8 @@ use the editor.
 
 ## Storefront architecture
 - Keep exactly three customer content routes (home, dynamic product detail, checkout); collection navigation filters the home because the requested phase excludes additional pages.
-- Keep demo catalog rules in a pure module and cart in an in-memory root provider; no persistence or real orders are implied without an approved store connection.
+- Keep demo catalog rules in a pure module and cart in an in-memory root provider; persist real orders only through validated Bank Mellat server handlers.
 - Render the photographic R3F scene only through a lazy client-only desktop subtree; mobile and reduced-motion visitors use the original photo for performance and SSR safety.
-- Unknown commercial amounts stay null and unconfigured payment stays disabled; tests enforce truthful demonstration behavior.
+- Unknown commercial amounts stay null and unconfigured payment stays disabled; mark Bank Mellat orders paid only after server-side verification and settlement, and test truthful commercial behavior.
 - Product color variants own their matching photo galleries; detail selection and cart thumbnails resolve through that same catalog mapping to avoid showing unrelated garments or colors.
 - AI size recommendations run in a server function against the product's catalog-owned chart; validate suggested options, never persist body measurements, and label all unverified charts as demonstrations.

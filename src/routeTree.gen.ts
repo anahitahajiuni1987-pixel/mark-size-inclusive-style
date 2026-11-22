@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as ProductSlugRouteImport } from './routes/product.$slug'
+import { Route as ApiPublicPaymentsMellatCallbackRouteImport } from './routes/api/public/payments/mellat/callback'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -28,35 +29,58 @@ const ProductSlugRoute = ProductSlugRouteImport.update({
   path: '/product/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicPaymentsMellatCallbackRoute =
+  ApiPublicPaymentsMellatCallbackRouteImport.update({
+    id: '/api/public/payments/mellat/callback',
+    path: '/api/public/payments/mellat/callback',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/checkout': typeof CheckoutRoute
   '/product/$slug': typeof ProductSlugRoute
+  '/api/public/payments/mellat/callback': typeof ApiPublicPaymentsMellatCallbackRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/checkout': typeof CheckoutRoute
   '/product/$slug': typeof ProductSlugRoute
+  '/api/public/payments/mellat/callback': typeof ApiPublicPaymentsMellatCallbackRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/checkout': typeof CheckoutRoute
   '/product/$slug': typeof ProductSlugRoute
+  '/api/public/payments/mellat/callback': typeof ApiPublicPaymentsMellatCallbackRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/checkout' | '/product/$slug'
+  fullPaths:
+    | '/'
+    | '/checkout'
+    | '/product/$slug'
+    | '/api/public/payments/mellat/callback'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/checkout' | '/product/$slug'
-  id: '__root__' | '/' | '/checkout' | '/product/$slug'
+  to:
+    | '/'
+    | '/checkout'
+    | '/product/$slug'
+    | '/api/public/payments/mellat/callback'
+  id:
+    | '__root__'
+    | '/'
+    | '/checkout'
+    | '/product/$slug'
+    | '/api/public/payments/mellat/callback'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CheckoutRoute: typeof CheckoutRoute
   ProductSlugRoute: typeof ProductSlugRoute
+  ApiPublicPaymentsMellatCallbackRoute: typeof ApiPublicPaymentsMellatCallbackRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -82,6 +106,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/payments/mellat/callback': {
+      id: '/api/public/payments/mellat/callback'
+      path: '/api/public/payments/mellat/callback'
+      fullPath: '/api/public/payments/mellat/callback'
+      preLoaderRoute: typeof ApiPublicPaymentsMellatCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -89,6 +120,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CheckoutRoute: CheckoutRoute,
   ProductSlugRoute: ProductSlugRoute,
+  ApiPublicPaymentsMellatCallbackRoute: ApiPublicPaymentsMellatCallbackRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -407,7 +407,8 @@ export function matchesCatalogCategory(product: Product, category?: string) {
 
 export const canSelect = (product: Product, option: string) =>
   product.options.includes(option) && !product.unavailable.includes(option);
-export const paymentConfigured = false;
+// Real checkout stays unavailable until the store supplies its shipping rule.
+export const shippingToman: number | null = null;
 export const toman = (value: number | null) =>
   value === null ? "قیمت اعلام نشده" : `${new Intl.NumberFormat("fa-IR").format(value)} تومان`;
 export const numberFa = (value: number) => new Intl.NumberFormat("fa-IR").format(value);

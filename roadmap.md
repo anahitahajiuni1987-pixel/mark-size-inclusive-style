@@ -9,4 +9,6 @@
 - [x] Product detail, option selection, measurement guidance and demonstration cart; actual centimeter table awaits verified product data.
 - [x] Checkout review with truthful unavailable-payment state.
 - [x] Verify mobile/desktop, shopping flow and rules; physical-device animation performance remains unverified.
-- [ ] Real catalog and payment connection — blocked by declined Shopify setup.
+- [x] Secure order storage and Bank Mellat verification/settlement flow, with unconfigured payment disabled.
+- [ ] Activate real Bank Mellat payment — blocked by missing merchant credentials, actual Toman prices, and shipping rule.
+- [ ] Optional SnappPay alternative — awaiting separate merchant approval and API documentation; POS and Kish are excluded.

@@ -1,0 +1,13 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1795334769944,
+      "tag": "0000_create_secure_mellat_orders",
+      "breakpoints": true
+    }
+  ]
+}
